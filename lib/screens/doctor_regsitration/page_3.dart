@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/screens/doctor_regsitration/contrller.dart';
 
-class Page3 extends StatefulWidget {
+class Page3 extends StatelessWidget {
   final PageController controller;
+  final DoctorRegistrationController registrationController = Get.find();
   Page3({super.key, required this.controller});
-
-  @override
-  State<Page3> createState() => _Page3State();
-}
-
-class _Page3State extends State<Page3> {
-  final TextEditingController availability = TextEditingController();
-
-  final TextEditingController working_address = TextEditingController();
-
-  final TextEditingController secondary_working_address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +18,16 @@ class _Page3State extends State<Page3> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TxtField(controller: availability, label: "Availability"),
-              TxtField(controller: working_address, label: "Working Address"),
-              TxtField(controller: secondary_working_address, label: "Working Address 2 (Optional)"),
+              TxtField(controller: registrationController.availabilityDayController, label: "Availability Days"),
+              TxtField(controller: registrationController.availabilityTimeController, label: "Availability Time"),
+              TxtField(controller: registrationController.workingAddressController, label: "Working Address"),
+              TxtField(controller: registrationController.optionalWorkingAddressController, label: "Working Address 2 (Optional)"),
               Spacer(),
               Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      widget.controller.previousPage(duration: Duration(milliseconds: 300),
+                      controller.previousPage(duration: Duration(milliseconds: 300),
                         curve: Curves.easeInOut);
                     },
                     child: Container(

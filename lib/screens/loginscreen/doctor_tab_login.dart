@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/database/doctor_login.dart';
 import 'package:new_screens/screens/home_screen/main_home.dart';
 import 'package:new_screens/globals.dart' as globals;
 
@@ -15,6 +16,7 @@ class _DoctorTabLoginState extends State<DoctorTabLogin> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool checkbox = false;
+  DoctorLogin login = DoctorLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +61,19 @@ class _DoctorTabLoginState extends State<DoctorTabLogin> {
             Align(
               alignment: Alignment.centerRight,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async{
                  widget.toggleLoading();
-                  Future.delayed(Duration(seconds: 5), () {
-                    widget.toggleLoading();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Dashboard()));
+                  bool loginSuccess = await login.doctorLogin(usernameController.text, passwordController.text);
+                  
+                  
+                  if (loginSuccess) {
                     setState(() {
-                      globals.isDoctorLogin = true;
+                      globals.isDoctorLogin = true; // Ensure this is updated correctly
                     });
-                  });
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+                  } else {
+                    widget.toggleLoading();
+                  }
                   
                 },
                 child: Container(

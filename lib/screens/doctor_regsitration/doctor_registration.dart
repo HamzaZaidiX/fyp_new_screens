@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:new_screens/screens/loginscreen/doctor_regsitration/page_1.dart';
-import 'package:new_screens/screens/loginscreen/doctor_regsitration/page_2.dart';
-import 'package:new_screens/screens/loginscreen/doctor_regsitration/page_3.dart';
+import 'package:new_screens/database/doctor_creation.dart';
+import 'package:new_screens/screens/doctor_regsitration/contrller.dart';
+import 'package:new_screens/screens/doctor_regsitration/page_1.dart';
+import 'package:new_screens/screens/doctor_regsitration/page_2.dart';
+import 'package:new_screens/screens/doctor_regsitration/page_3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:get/get.dart';
 
 class DoctorRegistration extends StatefulWidget {
   DoctorRegistration({super.key});
@@ -13,7 +16,10 @@ class DoctorRegistration extends StatefulWidget {
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   final PageController controller = PageController();
-   final ValueNotifier<int> currentPageNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> currentPageNotifier = ValueNotifier<int>(0);
+  final DoctorRegistrationController registrationController = Get.put(DoctorRegistrationController());
+  DoctorCreation doctor_creation = DoctorCreation();
+
 
   @override
   void initState() {
@@ -91,8 +97,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               top: 380,
               right: 20,
               child: GestureDetector(
-                onTap: () {
-                          
+                onTap: () async{
+                  await doctor_creation.createDoctor(
+                    registrationController.doctorNameController.text, 
+                  registrationController.doctorCnicController.text,
+                  registrationController.doctorPmdcController.text,
+                  registrationController.contactNoController.text, 
+                  registrationController.emailController.text, 
+                  registrationController.passwordController.text, 
+                  registrationController.availabilityDayController.text, 
+                  registrationController.availabilityTimeController.text, 
+                  registrationController.workingAddressController.text, 
+                  registrationController.optionalWorkingAddressController.text,
+                  registrationController.specialization.text
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),

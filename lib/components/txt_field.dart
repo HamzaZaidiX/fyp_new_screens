@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 class TxtField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
-  const TxtField({super.key, required this.controller, required this.label});
+  final bool isPassword;
+  final GestureTapCallback? onTap;
+  const TxtField({super.key, required this.controller, required this.label, this.isPassword = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+       onTap: onTap,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
         fontSize: 13.0

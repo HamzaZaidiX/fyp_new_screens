@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/screens/doctor_regsitration/contrller.dart';
+import 'package:get/get.dart';
 
-class Page1 extends StatefulWidget {
+class Page1 extends StatelessWidget {
   final PageController controller;
+  final DoctorRegistrationController registrationController = Get.find();
   Page1({super.key, required this.controller});
-
-  @override
-  State<Page1> createState() => _Page1State();
-}
-
-class _Page1State extends State<Page1> {
-  final TextEditingController doctor_name = TextEditingController();
-
-  final TextEditingController doctor_cnic = TextEditingController();
-
-  final TextEditingController doctor_pmdc = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +18,16 @@ class _Page1State extends State<Page1> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TxtField(controller: doctor_name, label: "Doctor's Name"),
-              TxtField(controller: doctor_cnic, label: "Doctor's CNIC"),
-              TxtField(controller: doctor_pmdc, label: "Doctor's PMDC No#"),
+              TxtField(controller: registrationController.doctorNameController, label: "Doctor's Name"),
+              TxtField(controller: registrationController.doctorCnicController, label: "Doctor's CNIC"),
+              TxtField(controller: registrationController.doctorPmdcController, label: "Doctor's PMDC No#"),
               Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      widget.controller.nextPage(duration: Duration(milliseconds: 300),
+                      controller.nextPage(duration: Duration(milliseconds: 300),
                         curve: Curves.easeInOut);
                     },
                     child: Container(

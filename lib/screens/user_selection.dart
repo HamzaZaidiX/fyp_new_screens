@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_screens/screens/loginscreen/doctor_regsitration/doctor_registration.dart';
+import 'package:new_screens/screens/doctor_regsitration/doctor_registration.dart';
 import 'package:new_screens/screens/loginscreen/login_screen.dart';
 import 'package:new_screens/screens/user_registration.dart';
 

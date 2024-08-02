@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/screens/doctor_regsitration/contrller.dart';
 
-class Page2 extends StatefulWidget {
+class Page2 extends StatelessWidget {
   final PageController controller;
+  final DoctorRegistrationController registrationController = Get.find();
   Page2({super.key, required this.controller});
-
-  @override
-  State<Page2> createState() => _Page2State();
-}
-
-class _Page2State extends State<Page2> {
-  final TextEditingController contact_no = TextEditingController();
-
-  final TextEditingController email = TextEditingController();
-
-  final TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +18,10 @@ class _Page2State extends State<Page2> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TxtField(controller: contact_no, label: "Contact No"),
-              TxtField(controller: email, label: "Email"),
-              TxtField(controller: password, label: "Password"),
+              TxtField(controller: registrationController.contactNoController, label: "Contact No"),
+              TxtField(controller: registrationController.emailController, label: "Email"),
+              TxtField(controller: registrationController.passwordController, label: "Password"),
+              TxtField(controller: registrationController.specialization, label: "Specialization"),
               Spacer(),
               
               Row(
@@ -36,7 +29,7 @@ class _Page2State extends State<Page2> {
                 children: [
                   GestureDetector(
                         onTap: () {
-                          widget.controller.previousPage(duration: Duration(milliseconds: 300),
+                          controller.previousPage(duration: Duration(milliseconds: 300),
                             curve: Curves.easeInOut);
                         },
                         child: Container(
@@ -54,7 +47,7 @@ class _Page2State extends State<Page2> {
                       ),
                       GestureDetector(
                     onTap: () {
-                      widget.controller.nextPage(duration: Duration(milliseconds: 300),
+                      controller.nextPage(duration: Duration(milliseconds: 300),
                         curve: Curves.easeInOut);
                     },
                     child: Container(

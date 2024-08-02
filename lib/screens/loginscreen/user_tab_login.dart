@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/database/user_login.dart';
 import 'package:new_screens/screens/home_screen/main_home.dart';
 import 'package:new_screens/screens/user_registration.dart';
 import 'package:new_screens/globals.dart' as globals;
@@ -17,6 +17,7 @@ class _UserTabLoginState extends State<UserTabLogin> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool checkbox = false;
+  UserLogin login = UserLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -61,22 +62,22 @@ class _UserTabLoginState extends State<UserTabLogin> {
             Align(
               alignment: Alignment.centerRight,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   widget.toggleLoading();
-                  Future.delayed(Duration(seconds: 5), () {
-                    widget.toggleLoading();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Dashboard()));
+                  bool loginSuccess = await login.userLogin(usernameController.text, passwordController.text);
+                  
+                  
+                  if (loginSuccess) {
                     setState(() {
-                      globals.isDoctorLogin = false;
+                      globals.isDoctorLogin = false; // Ensure this is updated correctly
                     });
-                  });
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+                  } else {
+                    widget.toggleLoading();
+                  }
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(8.0),
@@ -99,8 +100,7 @@ class _UserTabLoginState extends State<UserTabLogin> {
                         builder: (context) => UserRegistration()));
               },
               child: Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 24.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(8.0),

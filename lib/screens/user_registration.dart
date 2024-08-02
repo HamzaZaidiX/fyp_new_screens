@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_screens/components/txt_field.dart';
+import 'package:new_screens/database/user_creation.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({super.key});
@@ -9,6 +10,9 @@ class UserRegistration extends StatefulWidget {
 }
 
 class _UserRegistrationState extends State<UserRegistration> {
+
+  UserCreation create_user = UserCreation();
+
   TextEditingController name = TextEditingController();
 
   TextEditingController email = TextEditingController();
@@ -18,6 +22,23 @@ class _UserRegistrationState extends State<UserRegistration> {
   TextEditingController dob = TextEditingController();
 
   TextEditingController location = TextEditingController();
+
+  DateTime? date_of_birth;
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        date_of_birth = picked;
+        dob.text = "${picked.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +70,16 @@ class _UserRegistrationState extends State<UserRegistration> {
             TxtField(controller: name, label: "Name"),
             TxtField(controller: email, label: "Email"),
             TxtField(controller: password, label: "Password"),
-            TxtField(controller: dob, label: "Date of Birth"),
+            TxtField(controller: dob, label: "Date of Birth", 
+              onTap: () {
+                _selectDate(context);
+              },
+            ),
             TxtField(controller: location, label: "Location"),
             Spacer(),
             GestureDetector(
               onTap: () {
-      
+                create_user.createUser(name.text, email.text, password.text, date_of_birth!, location.text);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
